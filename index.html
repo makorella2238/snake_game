@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link href="index.css" rel="stylesheet">
+</head>
+<body>
+    <h1 class="game-title">Змейка</h1>
+    <div class="record-container">
+        <span class="record-label">Ваш рекорд:</span>
+        <span class="record-value" id="record"></span>
+    </div>
+    <canvas id="gameCanvas" width="300" height="300"></canvas>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="gameOverModal">
+        <div class="content">
+            <h2>Игра окончена!</h2>
+            <p>Ваши очки: <span id="score"></span></p>
+            <button class="modal-button" id="restartButton">Играть ещё раз</button>
+        </div>
+    </div>
+
+    <script src="snake.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+canvas {
+    display: block;
+    margin: 50px auto;
+    border: 1px solid #000;
+    image-rendering: pixelated;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    border-radius: 10px;
+
+    min-width: 300px;
+    height: auto;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+}
+
+.modal-button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+.modal-button:hover {
+    background: #307433;
+    scale: 1.05;
+}
+
+.content {
+    text-align: center;
+}
+
+.snake-head {
+    background-color: lightgreen;
+    border-color: darkgreen;
+}
+
+.snake-body {
+    background-color: green;
+    border-color: darkgreen;
+}
+
+.game-title {
+    text-align: center;
+    font-size: 32px;
+    margin-top: 50px;
+}
+
+.record-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.record-label {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.record-value {
+    font-size: 22px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.button-container button {
+    font-size: 18px;
+    margin: 0 5px;
+}
