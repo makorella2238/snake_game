@@ -1,9 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
+    // Получаем элементы <audio> по их id
+    const eatFoodAudio = document.getElementById("eatFoodAudio");
+    const collisionAudio = document.getElementById("collisionAudio");
+
+    // Воспроизведение звука при съедании еды
+    function playEatFoodSound() {
+        eatFoodAudio.play();
+    }
+
+    // Воспроизведение звука при столкновении
+    function playCollisionSound() {
+        collisionAudio.play();
+    }
 
     const snakeSize = 10;
-    let snake = [{ x: 200, y: 200 }, { x: 190, y: 200 }, { x: 180, y: 200 }];
+    let snake = [{x: 200, y: 200}, {x: 190, y: 200}, {x: 180, y: 200}];
     let dx = 10;
     let dy = 0;
     let foodX;
@@ -31,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function advanceSnake() {
-        const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
         snake.unshift(head);
         if (head.x === foodX && head.y === foodY) {
             score += 10;
@@ -41,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('snakeRecord', record); // Обновление рекорда в localStorage
                 document.getElementById('record').textContent = record;
             }
+            playEatFoodSound()
             createFood();
         } else {
             snake.pop();
@@ -147,37 +161,42 @@ document.addEventListener('DOMContentLoaded', () => {
             showGameOverModal();
             return;
         }
+
+        // Проверяем, была ли съедена еда и проигрываем звуковой эффект
+        if (snakeAteFood()) {
+            playEatFoodSound();
+        }
     }
 
     createFood();
 
     const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
-    if (screenWidth>= 450) {
+    if (screenWidth >= 450) {
         document.addEventListener('keydown', changeDirection);
     } else {
         const leftButton = document.createElement('button');
         leftButton.textContent = '⬅️';
         leftButton.addEventListener('click', () => {
-            changeDirection({ keyCode: 37 });
+            changeDirection({keyCode: 37});
         });
 
         const upButton = document.createElement('button');
         upButton.textContent = '⬆️';
         upButton.addEventListener('click', () => {
-            changeDirection({ keyCode: 38 });
+            changeDirection({keyCode: 38});
         });
 
         const rightButton = document.createElement('button');
         rightButton.textContent = '➡️';
         rightButton.addEventListener('click', () => {
-            changeDirection({ keyCode: 39 });
+            changeDirection({keyCode: 39});
         });
 
         const downButton = document.createElement('button');
         downButton.textContent = '⬇️';
         downButton.addEventListener('click', () => {
-            changeDirection({ keyCode: 40 });
+            changeDirection({keyCode: 40});
         });
 
         const buttonContainer = document.createElement('div');
@@ -210,6 +229,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (snake.length === 0) {
             return true;
         }
+
+        // Проверяем столкновение и проигрываем звуковой эффект
+        if (checkCollision()) {
+            playCollisionSound();
+        }
+
         return checkCollision();
     }
 
@@ -220,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function restartGame() {
         hideGameOverModal(); // Добавьте эту строку
-        snake = [{ x: 200, y: 200 }, { x: 190, y: 200 }, { x: 180, y: 200 }];
+        snake = [{x: 200, y: 200}, {x: 190, y: 200}, {x: 180, y: 200}];
         dx = 10;
         dy = 0;
         score = 0;
