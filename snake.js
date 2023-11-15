@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Получаем элементы <audio> по их id
     const eatFoodAudio = document.getElementById("eatFoodAudio");
     const collisionAudio = document.getElementById("collisionAudio");
+    // Глобальная переменная для отслеживания столкновения
+    let collisionOccurred = false;
 
     // Воспроизведение звука при съедании еды
     function playEatFoodSound() {
@@ -11,8 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Воспроизведение звука при столкновении
+// Функция для воспроизведения звука при столкновении
     function playCollisionSound() {
-        collisionAudio.play();
+        // Проверяем, не было ли уже столкновения
+        if (!collisionOccurred) {
+            // Воспроизводим звук столкновения
+            collisionAudio.play()
+            // Устанавливаем флаг столкновения в true
+            collisionOccurred = true;
+        }
     }
 
     const snakeSize = 10;
@@ -27,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('record').textContent = record; // Установка значения рекорда из localStorage
 
     function clearCanvas() {
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'orange';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         drawGrid();
     }
@@ -42,6 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function drawSnake() {
         snake.forEach(drawSnakePart);
     }
+    // Функция для очистки флага столкновения
+    function resetCollisionFlag() {
+        collisionOccurred = false;
+    }
 
     function advanceSnake() {
         const head = {x: snake[0].x + dx, y: snake[0].y + dy};
@@ -55,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('record').textContent = record;
             }
             playEatFoodSound()
+            resetCollisionFlag()
             createFood();
         } else {
             snake.pop();
@@ -118,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drawGrid() {
-        ctx.strokeStyle = 'gray';
+        ctx.strokeStyle = '#000';
 
         // Рисуем вертикальные линии
         for (let x = 0; x <= canvas.width; x += snakeSize) {
@@ -163,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Проверяем, была ли съедена еда и проигрываем звуковой эффект
-        if (snakeAteFood()) {
+        if (drawFood()) {
             playEatFoodSound();
         }
     }
